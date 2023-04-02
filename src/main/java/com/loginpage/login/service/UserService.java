@@ -20,7 +20,7 @@ public class UserService {
             userModel.setLogin(login);
             userModel.setPassword(password);
             userModel.setEmail(email);
-            userModel.setRole("User");
+            userModel.setRole(role);
             return userRepository.save(userModel);
         }
     }
