@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.security.Principal;
+
 @Controller
 public class UserController {
 
@@ -31,15 +33,27 @@ public class UserController {
     }
 
     @GetMapping("/admin_page")
-    public String getAdminPage(@ModelAttribute UserModel userModel, Model model){
-        model.addAttribute("userRole", new UserModel());
+    public String getAdminPage(@ModelAttribute UserModel userModel, Model model, Principal principal){
+        String userName = principal.getName();
         UserModel authenticatedAdmin = userService.authenticateAdmin(userModel.getLogin(), userModel.getPassword(), userModel.getRole());
         if (authenticatedAdmin != null){
+            model.addAttribute("userRole", new UserModel());
             return "admin_page";
         } else {
             return "error_page";
         }
     }
+
+//    @GetMapping("/admin_page")
+//    public String getAdminPage(@ModelAttribute UserModel userModel, Model model){
+//        UserModel authenticatedAdmin = userService.authenticateAdmin(userModel.getLogin(), userModel.getPassword(), userModel.getRole());
+//        if (authenticatedAdmin != null){
+//            model.addAttribute("userRole", new UserModel());
+//            return "admin_page";
+//        } else {
+//            return "error_page";
+//        }
+//    }
 
     @PostMapping("/register")
     public String register(@ModelAttribute UserModel userModel){
