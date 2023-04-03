@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Account Page</title>
+</head>
+<body>
+<h1>Welcome to your account page <span th:text="${userLogin}"></span></h1>
+<!--<span th:if = "${userRole == 'Admin'}">Hello </span>-->
+
+<a th:if = "${userRole == 'Admin'}" href="/admin_page">Admin page</a>
+</body>
+</html>

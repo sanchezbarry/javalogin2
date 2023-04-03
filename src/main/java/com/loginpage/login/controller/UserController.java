@@ -30,10 +30,29 @@ public class UserController {
         return "login";
     }
 
+    @GetMapping("/admin_page")
+    public String getAdminPage(Model model){
+        model.addAttribute("adminRequest", new UserModel());
+        return "admin_page";
+    }
+
     @PostMapping("/register")
     public String register(@ModelAttribute UserModel userModel){
         System.out.println("register request:" + userModel);
         UserModel registeredUser = userService.registerUser(userModel.getLogin(), userModel.getPassword(), userModel.getEmail(), userModel.getRole());
         return registeredUser == null ? "error_page" : "redirect:/login";
+    }
+
+    @PostMapping("/login")
+    public String login(@ModelAttribute UserModel userModel, Model model){
+        System.out.println("login request:" + userModel);
+        UserModel authenticated = userService.authenticate(userModel.getLogin(), userModel.getPassword());
+        if(authenticated != null) {
+            model.addAttribute("userLogin", authenticated.getLogin());
+            model.addAttribute("userRole", authenticated.getRole());
+            return "account_page";
+        } else {
+            return "error_page";
+        }
     }
 }

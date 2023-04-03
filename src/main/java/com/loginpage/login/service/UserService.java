@@ -16,6 +16,10 @@ public class UserService {
         if (login == null || password == null) {
             return null;
         } else {
+            if(userRepository.findFirstByLogin(login).isPresent()){
+                System.out.println("This username already exists.");
+                return null;
+            }
             UserModel userModel = new UserModel();
             userModel.setLogin(login);
             userModel.setPassword(password);
