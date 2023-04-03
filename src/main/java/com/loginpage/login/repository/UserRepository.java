@@ -14,5 +14,5 @@ public interface UserRepository extends JpaRepository<UserModel, Integer> {
     Optional<UserModel> findFirstByLogin(String login);
 
 
-
+    Optional<Object> findByRole(String role);
 }

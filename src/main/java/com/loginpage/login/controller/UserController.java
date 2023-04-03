@@ -31,9 +31,14 @@ public class UserController {
     }
 
     @GetMapping("/admin_page")
-    public String getAdminPage(Model model){
-        model.addAttribute("adminRequest", new UserModel());
-        return "admin_page";
+    public String getAdminPage(@ModelAttribute UserModel userModel, Model model){
+        model.addAttribute("userRole", new UserModel());
+        UserModel authenticatedAdmin = userService.authenticateAdmin(userModel.getLogin(), userModel.getPassword(), userModel.getRole());
+        if (authenticatedAdmin != null){
+            return "admin_page";
+        } else {
+            return "error_page";
+        }
     }
 
     @PostMapping("/register")
@@ -55,4 +60,17 @@ public class UserController {
             return "error_page";
         }
     }
+
+//    @PostMapping("/admin_page")
+//    public String getAdminPage(@ModelAttribute UserModel userModel, Model model){
+//        System.out.println("admin request:" + userModel);
+//        UserModel authenticated = userService.authenticate(userModel.getLogin(), userModel.getPassword());
+//        if(authenticated != null) {
+//            model.addAttribute("userLogin", authenticated.getLogin());
+//            model.addAttribute("userRole", authenticated.getRole());
+//            return "admin_page";
+//        } else {
+//            return "error_page";
+//        }
+//    }
 }

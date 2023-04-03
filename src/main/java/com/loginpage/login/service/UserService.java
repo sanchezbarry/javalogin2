@@ -32,4 +32,8 @@ public class UserService {
     public UserModel authenticate(String login, String password){
         return userRepository.findByLoginAndPassword(login, password).orElse(null);
     }
+
+    public UserModel authenticateAdmin(String login, String password, String role) {
+        return (UserModel) userRepository.findByRole(String.valueOf(role == "Admin")).orElse(null);
+    }
 }
