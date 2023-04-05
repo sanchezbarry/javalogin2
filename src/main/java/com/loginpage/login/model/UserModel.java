@@ -1,6 +1,7 @@
 package com.loginpage.login.model;
 
 import jakarta.persistence.*;
+import org.springframework.context.annotation.Bean;
 
 import java.util.Objects;
 

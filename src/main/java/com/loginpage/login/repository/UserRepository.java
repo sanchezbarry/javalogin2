@@ -1,11 +1,12 @@
 package com.loginpage.login.repository;
 
 import com.loginpage.login.model.UserModel;
-import org.apache.catalina.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+@Repository
 public interface UserRepository extends JpaRepository<UserModel, Integer> {
 
 
@@ -13,8 +14,7 @@ public interface UserRepository extends JpaRepository<UserModel, Integer> {
 
     Optional<UserModel> findFirstByLogin(String login);
 
+    Optional<UserModel> findByRole(String role);
 
-    Optional<Object> findByRole(String role);
-
-    Optional<UserModel> findByLogin(String login);
+    UserModel findByLoginAndPasswordAndRole(String login, String password, String role);
 }

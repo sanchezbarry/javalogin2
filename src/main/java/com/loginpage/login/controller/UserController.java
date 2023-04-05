@@ -32,28 +32,45 @@ public class UserController {
         return "login";
     }
 
-    @GetMapping("/admin_page")
-    public String getAdminPage(@ModelAttribute UserModel userModel, Model model, Principal principal){
-        String userName = principal.getName();
-        UserModel authenticatedAdmin = userService.authenticateAdmin(userModel.getLogin(), userModel.getPassword(), userModel.getRole());
-        if (authenticatedAdmin != null){
-            model.addAttribute("userRole", new UserModel());
-            return "admin_page";
-        } else {
-            return "error_page";
-        }
-    }
-
 //    @GetMapping("/admin_page")
-//    public String getAdminPage(@ModelAttribute UserModel userModel, Model model){
-//        UserModel authenticatedAdmin = userService.authenticateAdmin(userModel.getLogin(), userModel.getPassword(), userModel.getRole());
-//        if (authenticatedAdmin != null){
-//            model.addAttribute("userRole", new UserModel());
+//    public String getAdminPage(Model model, Principal principal, UserModel userModel) {
+//        userModel.setRole("Admin");
+//        UserModel authenticatedAdmin = userService.authenticateAdmin(userModel.getRole());
+//        if ("Admin".equals(authenticatedAdmin)) {
 //            return "admin_page";
 //        } else {
 //            return "error_page";
 //        }
 //    }
+
+
+//    @GetMapping("/admin_page")
+//    public String getAdminPage(@ModelAttribute UserModel userModel) {
+////        UserModel userModel = new UserModel();
+//        userModel.setRole("Admin");
+////        model.addAttribute("adminRequest", new UserModel());
+//        System.out.println("admin request: " + userModel);
+//        UserModel authenticatedAdmin = userService.authenticateAdmin(userModel.getRole());
+//        if (authenticatedAdmin != null) {
+////            model.addAttribute("userRole", authenticatedAdmin.getRole());
+//            return "admin_page";
+//        } else {
+//            return "error_page";
+//        }
+//    }
+
+    @GetMapping("/admin_page")
+    public String getAdminPage(Model model, UserModel userModel) {
+        UserModel authenticateAdmin = userService.authenticateAdmin(userModel.getRole());
+        userModel.setRole("Admin");
+        System.out.println("admin request:" + userModel);
+        if (userModel != null && userModel.getRole().equals("Admin")) {
+            model.addAttribute("userRole", userModel.getRole());
+            return "admin_page";
+        } else {
+            return "error_page";
+        }
+    }
 
     @PostMapping("/register")
     public String register(@ModelAttribute UserModel userModel){
@@ -75,16 +92,5 @@ public class UserController {
         }
     }
 
-//    @PostMapping("/admin_page")
-//    public String getAdminPage(@ModelAttribute UserModel userModel, Model model){
-//        System.out.println("admin request:" + userModel);
-//        UserModel authenticated = userService.authenticate(userModel.getLogin(), userModel.getPassword());
-//        if(authenticated != null) {
-//            model.addAttribute("userLogin", authenticated.getLogin());
-//            model.addAttribute("userRole", authenticated.getRole());
-//            return "admin_page";
-//        } else {
-//            return "error_page";
-//        }
-//    }
+
 }
